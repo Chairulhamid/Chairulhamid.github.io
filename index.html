@@ -259,20 +259,30 @@
       <div class="content-section-heading text-center"> 
         <h2 style="color: #005a9c;" class="mb-5">Contact Me</h2>
       </div>
+     <div class="alert alert-success alert-dismissible fade show d-none my-alert" role="alert">
+  <strong>Terima Kasih!</strong> Data Anda Sudah Kami Terima.
+  <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
+</div>
+      <form name="contact-form-chairulhamid" action="">
       <div class="contactForm">
         <div class="inputBox">
-          <input type="text" placeholder="Name" />
+          <input type="text" placeholder="Name" name="nama" />
         </div>
         <div class="inputBox">
-          <input type="text" placeholder="Email Address" />
+          <input type="email" placeholder="Email Address" name="email" />
         </div>
         <div class="inputBox">
-          <textarea placeholder="Message"></textarea>
+          <textarea placeholder="Message" name="pesan"></textarea>
         </div>
         <div class="inputBox">
-          <input type="submit" value="Send" />
+          <input class="btn-kirim" type="submit" value="Send" />
+          <button class="btn d-none btn-loading " type="button" disabled>
+  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+  Loading...
+</button>
         </div>
       </div>
+      </form>
     </section>
 
     <!-- Footer-->
@@ -301,5 +311,33 @@
 
     <!-- SCRIPT -->
         <script src="script.js"></script>
+        <script>
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbwGvbPfJEpOQRq_Jpik3KxrcyAOJJqXBMudmnSPmN1b5RDLOyXrobElMvwKAqwOwD3Crw/exec'
+  const form = document.forms['contact-form-chairulhamid'];
+  const btnKirim = document.querySelector('.btn-kirim');
+  const btnLoading = document.querySelector('.btn-loading');
+  const myAlert = document.querySelector('.my-alert');
+
+  form.addEventListener('submit', e => {
+    e.preventDefault()
+    //ketika tombol submit di kirm
+    //tampil tombol loading
+    btnLoading.classList.toggle('d-none');
+    btnKirim.classList.toggle('d-none');
+    fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+      .then(response =>{
+          //ketika tombol submit di kirm
+    //hialngkan tombol loading
+    btnLoading.classList.toggle('d-none');
+    btnKirim.classList.toggle('d-none');
+    // tampil alert
+    myAlert.classList.toggle('d-none');
+    //reset form
+    form.reset();
+        console.log('Success!', response)
+        })
+      .catch(error => console.error('Error!', error.message))
+  });
+</script>
   </body>
 </html>
